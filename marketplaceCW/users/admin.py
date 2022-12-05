@@ -2,6 +2,7 @@ from django.contrib import admin
 from django import forms
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth.models import Group
 from .models import MyUser
 
 class UserCreationForm(forms.ModelForm):
@@ -29,3 +30,7 @@ class UserAdmin(BaseUserAdmin):
     pass
 
 admin.site.register(MyUser, UserAdmin)
+
+admin.site.unregister(Group)
+
+#Hash the above two lines out if testing as will not work atm
