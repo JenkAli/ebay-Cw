@@ -29,8 +29,8 @@ class UserChangeForm(forms.ModelForm):
 class UserAdmin(BaseUserAdmin):
     pass
 
-admin.site.register(MyUser, UserAdmin)
+# admin.site.register(MyUser, UserAdmin)
 
-admin.site.unregister(Group)
+# admin.site.unregister(Group)
 
 #Hash the above two lines out if testing as will not work atm
