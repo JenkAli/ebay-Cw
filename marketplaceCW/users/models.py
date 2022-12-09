@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import ( AbstractBaseUser, BaseUserManager )
+from django.contrib.auth.models import ( AbstractBaseUser, BaseUserManager, PermissionsMixin )
 from django.core.validators import validate_email
 
 
@@ -20,15 +20,19 @@ class MyUserManager(BaseUserManager):
         extra_fields.setdefault('image', 'images/placeholder.jpg')
         user = self._create_user(email, date_of_birth, password, **extra_fields)
         user.is_admin = True
+        user.is_superuser = True
+        user.is_staff = True
         user.save(using=self._db)
         return user
 
 
-class MyUser(AbstractBaseUser):
+class MyUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name='email address', unique=True)
     date_of_birth = models.DateField()
     image = models.ImageField(upload_to='images/')
     is_active = models.BooleanField(default= True)
+    is_staff = models.BooleanField(default = True)
+    is_superuser = models.BooleanField(default = True)
 
     objects = MyUserManager()
 
