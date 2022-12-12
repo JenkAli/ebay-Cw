@@ -1,4 +1,5 @@
 from django.db import models
+from djmoney.models.fields import MoneyField
 from django.conf import settings
 
 # Create your models here.
@@ -11,13 +12,14 @@ class Item(models.Model):
       null=False,
       related_name='owner'
     )
-    image = models.ImageField(upload_to='images/')
-    starting_price = models.DecimalField(max_digits=10, decimal_places=2)
-    current_price = models.DecimalField(max_digits=10, decimal_places=2)
+    image = models.ImageField(upload_to='images/', null=True)
+    starting_price = MoneyField(max_digits=10, decimal_places=2, default_currency='GBP')
+    current_price = MoneyField(max_digits=10, decimal_places=2, default_currency='GBP', null=True)
     expire_time = models.DateTimeField()
     current_bidder = models.ForeignKey(
       settings.AUTH_USER_MODEL,
       on_delete=models.CASCADE,
+      null=True,
       related_name='current_bidder'
     )
 
