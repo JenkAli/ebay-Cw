@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Register</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="parent" >
+        <div class="form">
+            <h1>Register</h1>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <label for="email">Email</label>
+                <input type="text" placeholder="enter your email" name="email" /><br>
+
+                <label for="date_of_birth">Date of birth</label>
+                <input type="date" placeholder="Enter your dob" name="date_of_birth" /><br>
+
+                <label for="image">Profile picture</label>
+                <input type="file" id="img" name="image" /><br>
+
+                <label for="password">Password</label>
+                <input type="text" placeholder="enter your password" name="password" /><br>
+
+                <input type="submit">
+                <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+            </form>
+        </div>
+    </div>
+</body>
