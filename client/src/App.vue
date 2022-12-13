@@ -9,7 +9,7 @@ import { RouterLink, RouterView } from "vue-router";
         <RouterLink to="/">Logo</RouterLink>
       </div>
       <div className="items">
-        <RouterLink to="/marketplace">Market Place</RouterLink>
+        <RouterLink to="/">Market Place</RouterLink>
         <RouterLink to="/profile">Profile</RouterLink>
       </div>
     </nav>
@@ -38,7 +38,7 @@ nav {
 }
 
 nav a.router-link-exact-active {
-  color: #00CFC1;
+  color: #00cfc1;
 }
 
 nav a.router-link-exact-active:hover {

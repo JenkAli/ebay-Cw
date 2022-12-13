@@ -7,12 +7,12 @@ defineProps<{
 
 <template>
   <div className="profile">
-    <img className="cardimg" src="" alt="no image found" />
+    <img className="cardimg" src="" alt="No Image Found" />
     <div className="details">
       <div className="cardTitle">
         <div class="green">{{ name }}</div>
       </div>
-      <div className="description">
+      <div className="profileDetails">
         <div class="green">{{ des }}</div>
       </div>
     </div>
@@ -36,6 +36,10 @@ defineProps<{
 
 .cardimg {
   width: 35%;
+}
+
+.profileDetails {
+  height: 75%;
 }
 
 .details {
