@@ -4,5 +4,5 @@ from .views import registerPage, Login, users
 urlpatterns = [
     path('register/', registerPage, name="registerPage"),
     path('login/', Login, name="login"),
-    path('users/', views.users),
+    path('users/', users, name="users"),
 ]
