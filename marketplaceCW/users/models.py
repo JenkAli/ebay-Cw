@@ -4,12 +4,13 @@ from django.core.validators import validate_email
 
 
 class MyUserManager(BaseUserManager):
-    def _create_user(self, email, date_of_birth, password, **extra_fields):
+    def _create_user(self, email, date_of_birth, password, image,**extra_fields):
         validate_email(email)
         email = self.normalize_email(email)
         user = self.model(
             email=email,
             date_of_birth= date_of_birth,
+            image = image,
             **extra_fields,
         )
         user.set_password(password)
