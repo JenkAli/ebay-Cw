@@ -43,4 +43,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
+    def __iter__(self):
+        return self
+
 # Create your models here.

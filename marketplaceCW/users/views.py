@@ -3,9 +3,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import MyUser
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .forms import CreateUserForm
 from django.contrib.auth.decorators import login_required
+from rest_framework.parsers import JSONParser
+from django.views.decorators.csrf import csrf_exempt
+from .serializers import UserSerializer
 
 def registerPage(request):
      form = CreateUserForm()
@@ -38,3 +41,14 @@ def Login(request):
 def logoutuser(request):
     logout(request)
     return redirect('login-page')
+
+
+
+# Create your views here.
+@csrf_exempt
+def users(request):
+    if(request.method == 'GET'):
+        users = MyUser.objects.all()
+        serializer = UserSerializer(users, many=True, context={'request': request})
+        print(serializer)
+        return HttpResponse(serializer.data)
