@@ -5,3 +5,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = MyUser
         fields = ['email', 'date_of_birth', 'password', 'is_active', 'is_superuser', 'is_staff']
+
+class UpdateUserSerializer(serializers.ModelSerializer): 
+    class Meta:
+        model = MyUser
+        fields = ['email', 'date_of_birth']

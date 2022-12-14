@@ -8,7 +8,7 @@ from .forms import CreateUserForm
 from django.contrib.auth.decorators import login_required
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UpdateUserSerializer
 
 def registerPage(request):
      form = CreateUserForm()
@@ -52,3 +52,17 @@ def users(request):
         serializer = UserSerializer(users, many=True, context={'request': request})
         print(serializer)
         return HttpResponse(serializer.data)
+
+@csrf_exempt
+def updateItem(request, pk):
+    try:
+        result = MyUser.objects.get(pk=pk)
+    except:
+        return JsonResponse('Error', status=404)  
+    if(request.method == 'PUT'):
+        data = JSONParser().parse(request)  
+        serializer = UpdateUserSerializer(result, data=data)
+        if(serializer.is_valid()):  
+            serializer.save() 
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)

@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import EditProfile from "../components/Profile-edit.vue";
 defineProps<{
   name: string;
   des: string;
+  email: string;
+  bday: string;
 }>();
 </script>
 
@@ -14,9 +17,12 @@ defineProps<{
       </div>
       <div className="profileDetails">
         <div class="green">{{ des }}</div>
+        <div class="green">{{ email }}</div>
+        <div class="green">{{ bday }}</div>
       </div>
     </div>
   </div>
+  <EditProfile />
 </template>
 
 <style scoped>

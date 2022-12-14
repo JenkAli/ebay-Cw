@@ -7,9 +7,9 @@ import AddButton from "../components/Button-add.vue";
   <div className="buttonStyling">
     <AddButton />
   </div>
-  <ProductCard name="Car" des="Drives" startPrice="10" />
-  <ProductCard name="Bottle" des="Made from plastic" />
-  <ProductCard name="Bottle" des="Made from plastic" />
+  <ProductCard name="Car" des="Drives" startPrice=10 />
+  <ProductCard name="Bottle" des="Made from plastic" startPrice=10 />
+  <ProductCard name="Bottle" des="Made from plastic" startPrice=10 />
 </template>
 
 <style scoped>
@@ -18,4 +18,4 @@ import AddButton from "../components/Button-add.vue";
   flex-direction: row-reverse;
   width: 100%;
 }
-</style>
+</style>=
