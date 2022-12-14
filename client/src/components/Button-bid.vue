@@ -26,7 +26,7 @@ export default defineComponent({
         method: "PUT",
         body: JSON.stringify({
           current_price: this.value,
-          current_bidder: 0,
+          current_bidder: 1,
         }),
       });
     },
