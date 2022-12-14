@@ -27,7 +27,8 @@ export default defineComponent({
           starting_price: this.itemData.starting_price,
           expire_time: this.itemData.expire_time,
         }),
-      }).then(this.$emit("updateTable"));
+      });
+      setTimeout(() => this.$emit("updateTable"), 100);
     },
   },
 });
