@@ -3,7 +3,13 @@ import InfoButton from "./Button-info.vue";
 import BidButton from "./Button-bid.vue";
 import AddButton from "./Button-add.vue";
 import { defineComponent } from "vue";
+import moment from "moment";
 export default defineComponent({
+  filters: {
+    moment: function (date) {
+      return moment(date).format("MMMM Do YYYY, h:mm:ss a");
+    },
+  },
   components: {
     InfoButton,
     BidButton,
@@ -25,6 +31,9 @@ export default defineComponent({
       .catch((err) => console.log(err));
   },
   methods: {
+    moment: function (item) {
+      return moment(item);
+    },
     async handleAdd() {
       await fetch(`http://127.0.0.1:8000/api/items/`, {
         method: "GET",
@@ -61,13 +70,17 @@ export default defineComponent({
         </div>
         <div className="btnContainer">
           <InfoButton :name="item.title" :des="item.description" />
-          <div class="green">Ending at {{ item.expire_time }}</div>
+          <div class="green">
+            Ending at
+            {{ moment(item.expire_time).format("HH:mm, MMMM Do YYYY") }}
+          </div>
           <BidButton
             :itemId="item.id"
             :name="item.title"
             :des="item.description"
             :currentPrice="item.current_price"
             :startingPrice="item.starting_price"
+            @updateTable="handleAdd"
           />
         </div>
       </div>

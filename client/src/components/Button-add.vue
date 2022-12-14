@@ -6,29 +6,43 @@ export default defineComponent({
   data() {
     return {
       showModal: false,
+      error: "",
       itemData: {
         title: "",
         description: "",
         owner: 1,
         starting_price: 0,
-        expire_time: "2022-12-15T15:15:00Z",
+        expire_time: "",
       },
     };
   },
   methods: {
     async sumbitted() {
+      if (
+        this.itemData.title == "" ||
+        this.itemData.description == "" ||
+        this.itemData.starting_price == 0 ||
+        this.itemData.expire_time == ""
+      ) {
+        this.error = "Please complete all fields as prompted";
+      } else {
+        this.showModal = false;
+        await fetch(`http://127.0.0.1:8000/api/items/`, {
+          method: "POST",
+          body: JSON.stringify({
+            title: this.itemData.title,
+            description: this.itemData.description,
+            owner: this.itemData.owner,
+            starting_price: this.itemData.starting_price,
+            expire_time: this.itemData.expire_time,
+          }),
+        });
+        setTimeout(() => this.$emit("updateTable"), 100);
+      }
+    },
+    cancel() {
+      this.error = "";
       this.showModal = false;
-      await fetch(`http://127.0.0.1:8000/api/items/`, {
-        method: "POST",
-        body: JSON.stringify({
-          title: this.itemData.title,
-          description: this.itemData.description,
-          owner: this.itemData.owner,
-          starting_price: this.itemData.starting_price,
-          expire_time: this.itemData.expire_time,
-        }),
-      });
-      setTimeout(() => this.$emit("updateTable"), 100);
     },
   },
 });
@@ -52,13 +66,12 @@ export default defineComponent({
     <h3>Starting Price</h3>
     <input type="Number" v-model="itemData.starting_price" />
     <h3>Expire Time</h3>
-    <input type="date" v-model="itemData.expire_time" />
+    <input type="datetime-local" v-model="itemData.expire_time" />
     <h3>Upload Image</h3>
     <input type="file" ref="fileInput" accept="image/*" />
+    <div className="err">{{ error }}</div>
     <button type="button" className="btn" @click="sumbitted">Confirm</button>
-    <button type="button" className="btn" @click="showModal = false">
-      Cancel
-    </button>
+    <button type="button" className="btn" @click="cancel">Cancel</button>
   </div>
 </template>
 
