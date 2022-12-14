@@ -75,7 +75,22 @@ input[type=text] {
   margin: 8px 0;
   box-sizing: border-box;
 }
+
+input[type=Number] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
 input[type=file] {
+  width: 100%;
+    padding: 25px 129px;
+    margin: -2px 0;
+    box-sizing: border-box;
+}
+
+input[type=date] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -84,8 +99,9 @@ input[type=file] {
 
 textarea[type=text] {
   width: 100%;
-  padding: 12px 20px;
+  padding: 25px 20px;
   margin: 8px 0;
+  font-family: sans-serif;
   box-sizing: border-box;
   resize: vertical;
 

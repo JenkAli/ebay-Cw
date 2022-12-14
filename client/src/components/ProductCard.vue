@@ -1,27 +1,75 @@
-<script setup lang="ts">
+<script lang="ts">
 import InfoButton from "./Button-info.vue";
 import BidButton from "./Button-bid.vue";
-defineProps<{
-  name: string;
-  des: string;
-  startPrice: number;
-}>();
+import AddButton from "./Button-add.vue";
+import { defineComponent } from "vue";
+export default defineComponent({
+  components: {
+    InfoButton,
+    BidButton,
+    AddButton,
+  },
+  data() {
+    return {
+      items: [],
+    };
+  },
+  mounted() {
+    fetch(`http://127.0.0.1:8000/api/items/`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        this.items = data;
+      })
+      .catch((err) => console.log(err));
+  },
+  methods: {
+    async handleAdd() {
+      await fetch(`http://127.0.0.1:8000/api/items/`, {
+        method: "GET",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          this.items = data;
+        })
+        .catch((err) => console.log(err));
+    },
+  },
+});
 </script>
 
 <template>
-  <div className="card">
-    <img className="cardimg" src="" alt="no image found" />
-    <div className="details">
-      <div className="cardTitle">
-        <div class="green">{{ name }}</div>
-        <div class="green">£{{ startPrice }}</div>
-      </div>
-      <div className="description">
-        <div class="green">{{ des }}</div>
-      </div>
-      <div className="btnContainer">
-        <InfoButton :name="name" :des="des" />
-        <BidButton :name="name" :des="des" :currentPrice="startPrice" />
+  <div className="buttonStyling">
+    <AddButton @updateTable="handleAdd" />
+  </div>
+  <div v-for="item in items" v-bind:key="item.id">
+    <div className="card">
+      <img className="cardimg" src:item.image alt="no image found" />
+      <div className="details">
+        <div className="cardTitle">
+          <div class="green">{{ item.title }}</div>
+          <div v-if="item.current_price != null" class="green">
+            £{{ item.current_price }}
+          </div>
+          <div v-else-if="item.starting_price != null" class="green">
+            £{{ item.starting_price }}
+          </div>
+        </div>
+        <div className="description">
+          <div class="green">{{ item.description }}</div>
+        </div>
+        <div className="btnContainer">
+          <InfoButton :name="item.title" :des="item.description" />
+          <div class="green">Ending at {{ item.expire_time }}</div>
+          <BidButton
+            :itemId="item.id"
+            :name="item.title"
+            :des="item.description"
+            :currentPrice="item.current_price"
+            :startingPrice="item.starting_price"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -47,6 +95,8 @@ h1 {
   box-shadow: 0 8px 8px -4px lightblue;
   margin: 10px;
   height: 15rem;
+  max-height: 15rem;
+  min-height: 15rem;
 }
 .cardimg {
   width: 35%;
@@ -63,5 +113,10 @@ h1 {
 .btnContainer {
   display: flex;
   justify-content: space-between;
+}
+.buttonStyling {
+  display: flex;
+  flex-direction: row-reverse;
+  width: 100%;
 }
 </style>

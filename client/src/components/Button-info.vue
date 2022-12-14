@@ -9,7 +9,18 @@ export default defineComponent({
   data() {
     return {
       showModal: false,
+      questions: [],
     };
+  },
+  mounted() {
+    fetch(`http://127.0.0.1:8000/api/items/`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        this.questions = data;
+      })
+      .catch((err) => console.log(err));
   },
 });
 </script>
