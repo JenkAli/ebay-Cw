@@ -1,12 +1,7 @@
 from rest_framework import routers,serializers,viewsets
 from .models import MyUser
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer): 
     class Meta:
         model = MyUser
-        fields = ['email', 'date_of_birth', 'password', 'is_active', 'is_superuser', 'is_staff']
-
-class UpdateUserSerializer(serializers.ModelSerializer): 
-    class Meta:
-        model = MyUser
-        fields = ['email', 'date_of_birth']
+        fields = ['id', 'email', 'date_of_birth', 'image']
