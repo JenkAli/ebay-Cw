@@ -25,11 +25,10 @@ class Item(models.Model):
 
     def __str__(self):
         return self.title
-
+        
 class Question(models.Model):
     question = models.CharField(max_length=300)
-    item_id = models.ForeignKey(Item, on_delete=models.CASCADE, blank=False)
-    answered = models.BooleanField(default=False)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -37,7 +36,8 @@ class Question(models.Model):
         return self.question
 
 class Answer(models.Model):
-    question_id = models.ForeignKey(Question, on_delete=models.CASCADE, blank=False, null=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, blank=False)
     answer = models.TextField(max_length=500)
     created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
