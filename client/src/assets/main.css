@@ -60,6 +60,7 @@ a,
   outline: none;
   transition: 0.2s all;
   margin: 10px;
+  display: flex;
 }
 .btn:active {
   transform: scale(0.98);
@@ -75,17 +76,34 @@ input[type=text] {
   margin: 8px 0;
   box-sizing: border-box;
 }
-input[type=file] {
+
+input[type=Number] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
 }
 
+input[type=file] {
+  width: 100%;
+    padding: 25px 129px;
+    margin: -2px 0;
+    box-sizing: border-box;
+}
+
+input[type=datetime-local] {
+  width: 100%;
+  padding: 25px 20px;
+  margin: 8px 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
 textarea[type=text] {
   width: 100%;
-  padding: 12px 20px;
+  padding: 25px 20px;
   margin: 8px 0;
+  font-family: sans-serif;
   box-sizing: border-box;
   resize: vertical;
 
@@ -130,4 +148,7 @@ body {
     color: #fff;
     border: none;
     border-radius: 5px;
+.err{
+  color: red;
+  font-weight: 700;
 }
