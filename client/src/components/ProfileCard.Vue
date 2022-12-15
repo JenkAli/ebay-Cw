@@ -11,7 +11,7 @@ export default defineComponent({
     };
   },
   mounted() {
-    fetch(`http://127.0.0.1:8000/api/users/${}/`, {
+    fetch(`http://127.0.0.1:8000/api/users/`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -21,31 +21,21 @@ export default defineComponent({
       .catch((err) => console.log(err));
   },
   methods: {
-    async handleAdd() {
-      await fetch(`http://127.0.0.1:8000/api/users/`, {
-        method: "GET",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          this.users = data;
-        })
-        .catch((err) => console.log(err));
-    },
+
   },
 });
 </script>
-
 <template>
-  <div className="profile">
-    <img className="cardimg" src="" alt="No Image Found" />
-    <div className="details">
-      <div className="cardTitle">
-        <div class="green">{{ }}</div>
-      </div>
-      <div className="profileDetails">
-        <!-- <div class="green">{{ des }}</div>
-        <div class="green">{{ email }}</div>
-        <div class="green">{{ bday }}</div> -->
+  <div v-for="user in users" >
+    <div className="profile">
+      <img className="cardimg" src="" alt="No Image Found" />
+      <div className="details">
+        <div className="cardTitle">
+          <div class="green">{{ user.email }}</div>
+        </div>
+        <div className="profileDetails">
+          <div class="green">{{  }}</div>
+        </div>
       </div>
     </div>
   </div>
