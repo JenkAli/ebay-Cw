@@ -11,6 +11,9 @@ const router = createRouter({
       path: "/market",
       name: "marketplace",
       component: HomeView,
+      beforeEnter: () => {
+        if (localStorage.getItem("token") == null) router.push("/");
+      },
     },
     {
       path: "/",
@@ -26,6 +29,9 @@ const router = createRouter({
       path: "/profile",
       name: "profile",
       component: ProfileView,
+      beforeEnter: () => {
+        if (localStorage.getItem("token") == null) router.push("/");
+      },
     },
   ],
 });

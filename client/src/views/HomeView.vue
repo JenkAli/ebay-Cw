@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ProductCard from "../components/ProductCard.vue";
 import AddButton from "../components/Button-add.vue";
+
 </script>
 
 <template>

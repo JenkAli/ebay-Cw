@@ -20,8 +20,6 @@ urlpatterns = [
     path('api/', include('marketplace.urls')),
     path('api/', include('users.urls')),
     path('admin/', admin.site.urls),
-    path('register/', include('users.urls')),
-    path('login/', include('users.urls')),
-    path('api', include('djoser.urls')),
-    path('api', include('djoser.urls.authtoken'))
+    path('api/v1/', include('djoser.urls')),
+    path('api/v1/', include('djoser.urls.authtoken'))
 ]
