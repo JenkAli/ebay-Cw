@@ -14,9 +14,9 @@ class UpdateItemSerializer(serializers.ModelSerializer):
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = ['question', 'item_id', 'answered', 'user']
+        fields = ['id', 'question', 'item', 'user']
 
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
-        fields = ['question_id', 'answer', 'user']
+        fields = ['id', 'question', 'item', 'answer', 'user']

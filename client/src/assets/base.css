@@ -37,12 +37,6 @@
 }
 
 
-*{
-  border: #ff0035f7;
-  border-width: 1px;
-  border-style: double;
-}
-
 
 body {
   min-height: 100vh;

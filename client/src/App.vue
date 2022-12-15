@@ -1,16 +1,29 @@
-<script setup lang="ts">
+<script>
 import { RouterLink, RouterView } from "vue-router";
+import axios from "axios";
+
+export default {
+  beforeCreate() {
+    this.$store.commit("initializeStore");
+    const token = this.$store.state.token;
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = "Token " + token;
+    } else {
+      axios.defaults.headers.common["Authorization"] = "";
+    }
+  },
+}
 </script>
 
 <template>
   <div className="wrapper">
     <nav>
       <div className="logoclass">
-        <RouterLink to="/">Logo</RouterLink>
+        <RouterLink to="/market">Logo</RouterLink>
       </div>
       <div className="items">
-        <RouterLink to="/">Market Place</RouterLink>
-        <RouterLink to="/{{this.$route.params.userIdParam}}/profile">Profile</RouterLink>
+        <RouterLink to="/market">Market Place</RouterLink>
+        <RouterLink to="/profile">Profile</RouterLink>
       </div>
     </nav>
     <RouterView />
