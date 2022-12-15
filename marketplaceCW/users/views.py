@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from .serializers import UserSerializer
+import json
 
 def registerPage(request):
      form = CreateUserForm()
@@ -33,6 +34,7 @@ def Login(request):
         if user is not None:
             login(request, user)
             print("User has logged in")
+            return redirect(f'http://localhost:5173/{user.id}')
         else:
             return HttpResponse('Error, user does not exist')
     
@@ -51,7 +53,7 @@ def getAllUsers(request):
         users = MyUser.objects.all()
         serializer = UserSerializer(users, many=True, context={'request': request})
         print(serializer)
-        return HttpResponse(serializer.data)
+        return JsonResponse(serializer.data,safe=False)
 
 @csrf_exempt
 def users(request, pk):
@@ -63,7 +65,7 @@ def users(request, pk):
         data = JSONParser().parse(request)  
         serializer = UserSerializer(result, data=data)
         if(serializer.is_valid()):  
-            serializer.save() 
+            serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
     elif(request.method == 'GET'):

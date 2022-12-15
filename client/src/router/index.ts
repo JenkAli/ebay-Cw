@@ -6,12 +6,12 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/",
+      path: "/:userIdparam",
       name: "marketplace",
       component: HomeView,
     },
     {
-      path: "/profile",
+      path: "/:userIdparam/profile",
       name: "profile",
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route

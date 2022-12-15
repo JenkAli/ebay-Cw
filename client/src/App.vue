@@ -10,7 +10,7 @@ import { RouterLink, RouterView } from "vue-router";
       </div>
       <div className="items">
         <RouterLink to="/">Market Place</RouterLink>
-        <RouterLink to="/profile">Profile</RouterLink>
+        <RouterLink to="/{{this.$route.params.userIdParam}}/profile">Profile</RouterLink>
       </div>
     </nav>
     <RouterView />
