@@ -18,6 +18,7 @@ export default defineComponent({
   data() {
     return {
       items: [],
+      search: "",
     };
   },
   mounted() {
@@ -29,6 +30,9 @@ export default defineComponent({
         this.items = data;
       })
       .catch((err) => console.log(err));
+  },
+  ready: function () {
+    this.searched();
   },
   methods: {
     moment: function (item) {
@@ -44,6 +48,21 @@ export default defineComponent({
         })
         .catch((err) => console.log(err));
     },
+
+    async searched() {
+      if (this.search !== "") {
+        await fetch(`http://127.0.0.1:8000/api/items?q=${this.search}`, {
+          method: "GET",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            this.items = data;
+          })
+          .catch((err) => console.log(err));
+      } else {
+        this.handleAdd();
+      }
+    },
   },
 });
 </script>
@@ -51,6 +70,8 @@ export default defineComponent({
 <template>
   <div className="buttonStyling">
     <AddButton @updateTable="handleAdd" />
+    <button type="button" className="btn" @click="searched()">Search</button>
+    <input type="text" v-model="search" />
   </div>
   <div v-for="item in items" v-bind:key="item.id">
     <div className="card">
@@ -135,5 +156,6 @@ h1 {
   display: flex;
   flex-direction: row-reverse;
   width: 100%;
+  align-items: center;
 }
 </style>

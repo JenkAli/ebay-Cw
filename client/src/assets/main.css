@@ -60,6 +60,7 @@ a,
   outline: none;
   transition: 0.2s all;
   margin: 10px;
+  display: flex;
 }
 .btn:active {
   transform: scale(0.98);

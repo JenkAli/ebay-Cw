@@ -33,4 +33,11 @@ def updateItem(request, pk):
             serializer.save() 
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
-        
+
+def searchItems(request):
+    query = request.GET.get('q')
+    if query is None:
+        return JsonResponse({'error': 'No search query provided'})
+    items = Item.objects.filter(title__contains=query) | Item.objects.filter(description__contains=query)
+    serializer = ItemSerializer(items, many=True, context={'request': request})
+    return JsonResponse(serializer.data, safe=False)
