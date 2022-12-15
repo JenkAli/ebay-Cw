@@ -1,12 +1,10 @@
 <template>
   <div class="parent">
-    <div class="loginForm">
+    <div class="popup">
       <h1>Login Page</h1>
-
       <form @submit.prevent="submitForm">
         <label>Email:</label>
         <input
-          class="loginInput"
           type="text"
           placeholder="Enter your email"
           name="email"
@@ -16,14 +14,13 @@
         <label>Password:</label>
         <br />
         <input
-          class="loginInput"
           type="password"
           placeholder="Enter your password"
           name="password"
           v-model="password"
         /><br />
 
-        <button class="loginButton" type="submit">Submit</button>
+        <button class="btn" type="submit">Submit</button>
         <p>dont have an account? <a href="/register">Register</a></p>
       </form>
     </div>

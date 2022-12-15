@@ -1,6 +1,6 @@
 <template>
   <div class="parent">
-    <div class="loginForm">
+    <div class="popup">
       <h1>Register</h1>
       <form @submit.prevent="submitForm">
         <label for="email">Email</label>
@@ -31,7 +31,7 @@
           v-model="password"
         /><br />
 
-        <input type="submit" />
+        <input className="btn" type="submit" />
         <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
       </form>
     </div>
