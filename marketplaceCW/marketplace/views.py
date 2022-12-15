@@ -4,10 +4,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from .serializers import ItemSerializer, UpdateItemSerializer, QuestionSerializer
 from .models import Item, Question, Answer
+from django.utils import timezone
 
 # Create your views here.
 @csrf_exempt
 def items(request):
+    remove_expired_objects()
     if(request.method == 'GET'):
         items = Item.objects.all()
         serializer = ItemSerializer(items, many=True, context={'request': request})
@@ -22,6 +24,7 @@ def items(request):
 
 @csrf_exempt
 def updateItem(request, pk):
+    remove_expired_objects()
     try:
         result = Item.objects.get(pk=pk)
     except:
@@ -35,9 +38,15 @@ def updateItem(request, pk):
         return JsonResponse(serializer.errors, status=400)
 
 def searchItems(request):
+    remove_expired_objects()
     query = request.GET.get('q')
     if query is None:
         return JsonResponse({'error': 'No search query provided'})
     items = Item.objects.filter(title__contains=query) | Item.objects.filter(description__contains=query)
     serializer = ItemSerializer(items, many=True, context={'request': request})
     return JsonResponse(serializer.data, safe=False)
+
+def remove_expired_objects():
+    current_time = timezone.now()
+    expired_objects = Item.objects.filter(expire_time__lt=current_time)
+    expired_objects.delete()
