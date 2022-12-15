@@ -12,7 +12,13 @@ export default {
       axios.defaults.headers.common["Authorization"] = "";
     }
   },
-}
+  methods: {
+    logout() {
+      localStorage.clear();
+      this.$router.push("/");
+    },
+  },
+};
 </script>
 
 <template>
@@ -22,6 +28,7 @@ export default {
         <RouterLink to="/market">Logo</RouterLink>
       </div>
       <div className="items">
+        <a v-on:click="logout" href="#">Log Out</a>
         <RouterLink to="/market">Market Place</RouterLink>
         <RouterLink to="/profile">Profile</RouterLink>
       </div>
