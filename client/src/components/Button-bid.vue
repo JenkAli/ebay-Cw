@@ -30,7 +30,7 @@ export default defineComponent({
           method: "PUT",
           body: JSON.stringify({
             current_price: this.value,
-            current_bidder: 1,
+            current_bidder: localStorage.getItem("email"),
           }),
         });
         setTimeout(() => this.$emit("updateTable"), 100);

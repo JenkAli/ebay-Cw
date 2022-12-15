@@ -1,10 +1,5 @@
-from django.contrib import admin
-from django.shortcuts import redirect
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import MyUser
-from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from .serializers import UserSerializer
