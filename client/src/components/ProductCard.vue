@@ -69,7 +69,11 @@ export default defineComponent({
           <div class="green">{{ item.description }}</div>
         </div>
         <div className="btnContainer">
-          <InfoButton :name="item.title" :des="item.description" />
+          <InfoButton
+            :name="item.title"
+            :des="item.description"
+            :itemId="item.id"
+          />
           <div class="green">
             Ending at
             {{ moment(item.expire_time).format("HH:mm, MMMM Do YYYY") }}
