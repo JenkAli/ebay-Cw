@@ -4,10 +4,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from .serializers import ItemSerializer, UpdateItemSerializer, QuestionSerializer, AnswerSerializer
 from .models import Item, Question, Answer
+from django.utils import timezone
+from django.core.mail import send_mail
 
 # Create your views here.
 @csrf_exempt
 def items(request):
+    remove_expired_objects()
     if(request.method == 'GET'):
         items = Item.objects.all()
         serializer = ItemSerializer(items, many=True, context={'request': request})
@@ -22,6 +25,7 @@ def items(request):
 
 @csrf_exempt
 def updateItem(request, pk):
+    remove_expired_objects()
     try:
         result = Item.objects.get(pk=pk)
     except:
@@ -83,3 +87,33 @@ def itemAnswers(request, id, pk):
         print(answers)
         serializer = AnswerSerializer(answers, many=True, context={'request': request})
         return JsonResponse(serializer.data, safe=False)
+
+def searchItems(request):
+    remove_expired_objects()
+    query = request.GET.get('q')
+    if query is None:
+        return JsonResponse({'error': 'No search query provided'})
+    items = Item.objects.filter(title__contains=query) | Item.objects.filter(description__contains=query)
+    serializer = ItemSerializer(items, many=True, context={'request': request})
+    return JsonResponse(serializer.data, safe=False)
+
+def remove_expired_objects():
+    current_time = timezone.now()
+    expired_objects = Item.objects.filter(expire_time__lt=current_time)
+    expired_objects.delete()
+    
+    
+def remove_expired_objects():
+    current_time = timezone.now()
+    expired_objects = Item.objects.filter(expire_time__lt=current_time)
+    email_addresses = [obj.current_bidder for obj in expired_objects]
+    if expired_objects.exists():
+         expired_objects.delete()
+        #  for email_address in email_addresses:
+        #      send_mail(
+        #          'YOU WON',
+        #          'WELL DONE YOU have won the item you bidded on',
+        #          'ebaycw057@gmail.com',
+        #          [email_address],
+        #          fail_silently=True,
+        #      )

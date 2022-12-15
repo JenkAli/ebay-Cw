@@ -33,6 +33,7 @@ def Login(request):
         if user is not None:
             login(request, user)
             print("User has logged in")
+            return redirect('http://localhost:5173/')
         else:
             return HttpResponse('Error, user does not exist')
     
