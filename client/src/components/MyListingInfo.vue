@@ -11,11 +11,12 @@ export default defineComponent({
     return {
       showModal: false,
       questions: [],
-      answers: {},
+      replyText: "",
       QandA: [],
       asking: {
         question: "",
         item: this.itemId,
+        user: 2,
       },
     };
   },
@@ -32,21 +33,23 @@ export default defineComponent({
         })
         .catch((err) => console.log(err));
     },
-    ask() {
-      fetch(`http://127.0.0.1:8000/api/items/${this.itemId}/sendquestion/ `, {
-        method: "POST",
-        body: JSON.stringify({
-          question_text: this.asking.question,
-          userId: localStorage.getItem("id"),
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          this.answers = data;
+    reply(questionId) {
+      if (this.replyText !== "") {
+        fetch(`http://127.0.0.1:8000/api/items/${questionId}/answer/ `, {
+          method: "POST",
+          body: JSON.stringify({
+            answer_text: this.replyText,
+            userId: localStorage.getItem("id"),
+          }),
         })
-        .catch((err) => console.log(err));
-      setTimeout(() => this.getInfo(), 100);
-      this.asking.question = "";
+          .then((response) => response.json())
+          .then((data) => {
+            this.answers = data;
+          })
+          .catch((err) => console.log(err));
+        setTimeout(() => this.getInfo(), 100);
+        this.asking.question = "";
+      }
     },
   },
 });
@@ -62,14 +65,14 @@ export default defineComponent({
     <h2>Q&A</h2>
     <div v-for="q in questions" v-bind:key="q.id">
       <h3>Q: {{ q.question }}</h3>
-      <h3>A: {{ q.answer }}</h3>
+      <h3 v-if="q.answer">A: {{ q.answer }}</h3>
+      <div v-else-if="!q.answer">
+        <input type="text" placeholder="Add your reply" v-model="replyText" />
+        <button type="button" className="btn" @click="reply(q.id)">
+          Reply
+        </button>
+      </div>
     </div>
-    <input
-      type="text"
-      placeholder="Add your own question"
-      v-model="asking.question"
-    />
-    <button type="button" className="btn" @click="ask">Ask</button>
     <button type="button" className="btn" @click="showModal = false">
       Done
     </button>

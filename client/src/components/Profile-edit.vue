@@ -5,28 +5,26 @@ export default defineComponent({
     return {
       showModal: false,
       id: localStorage.getItem("id"),
-      email: localStorage.getItem("email")||"",
-      dob: localStorage.getItem("date_of_birth")||"",
+      email: localStorage.getItem("email") || "",
+      dob: localStorage.getItem("date_of_birth") || "",
     };
   },
   methods: {
     update() {
-      this.showModal = false
+      this.showModal = false;
       fetch(`http://127.0.0.1:8000/api/users/${this.id}`, {
         method: "PUT",
         body: JSON.stringify({
           email: this.email,
-          date_of_birth: this.dob, 
+          date_of_birth: this.dob,
         }),
-      })
-      .then(
-        localStorage.setItem("email",this.email),
-        localStorage.setItem("date_of_birth",this.dob),
+      }).then(
+        localStorage.setItem("email", this.email),
+        localStorage.setItem("date_of_birth", this.dob),
         window.location.reload(),
-        setTimeout(() => this.$emit("updateProfileCard"), 100),
+        setTimeout(() => this.$emit("updateProfileCard"), 100)
       );
-
-    }
+    },
   },
 });
 </script>
@@ -37,14 +35,12 @@ export default defineComponent({
     </button>
     <div className="popup" v-if="showModal">
       <h1>EDIT PROFILE DETAILS</h1>
-      <textarea type="text" placeholder="enter email" v-model="email"/>
+      <textarea type="text" placeholder="enter email" v-model="email" />
       <h3>Date of birth</h3>
-      <textarea type="text" placeholder="enter dob" v-model="dob"/>
+      <textarea type="text" placeholder="enter dob" v-model="dob" />
       <h3>Upload Profile Image</h3>
       <input type="file" ref="fileInput" accept="image/*" />
-      <button type="button" className="btn" @click="update">
-        Confirm
-      </button>
+      <button type="button" className="btn" @click="update">Confirm</button>
     </div>
   </div>
 </template>
