@@ -44,7 +44,7 @@ export default defineComponent({
   <h2 class="green">You Can Reply To Questions Here</h2>
   <div v-for="item in items" v-bind:key="item.id">
     <div className="card">
-      <img className="cardimg" src:item.image alt="no image found" />
+      <img className="cardimg" v-bind:src="'http://localhost:8000' + item.image" />
       <div className="details">
         <div className="cardTitle">
           <div class="green">{{ item.title }}</div>
