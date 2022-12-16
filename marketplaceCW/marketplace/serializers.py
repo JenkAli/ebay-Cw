@@ -10,6 +10,11 @@ class UpdateItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = ['current_price', 'current_bidder']
+        
+class UploadItemImageSerializer(serializers.ModelSerializer): 
+    class Meta:
+        model = Item
+        fields = ['id','image']
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
