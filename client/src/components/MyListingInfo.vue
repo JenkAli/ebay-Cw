@@ -39,7 +39,7 @@ export default defineComponent({
           method: "POST",
           body: JSON.stringify({
             answer_text: this.replyText,
-            userId: 1,
+            userId: localStorage.getItem("id"),
           }),
         })
           .then((response) => response.json())

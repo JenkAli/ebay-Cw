@@ -4,7 +4,7 @@ import MyListing from "../components/MyListings.vue";
 </script>
 
 <template>
-  <ProfileCard name="John Doe" />
+  <ProfileCard />
   <MyListing />
 </template>
 

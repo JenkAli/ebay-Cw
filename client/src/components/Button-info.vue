@@ -16,7 +16,6 @@ export default defineComponent({
       asking: {
         question: "",
         item: this.itemId,
-        user: 2,
       },
     };
   },
@@ -38,7 +37,7 @@ export default defineComponent({
         method: "POST",
         body: JSON.stringify({
           question_text: this.asking.question,
-          userId: 1,
+          userId: localStorage.getItem("id"),
         }),
       })
         .then((response) => response.json())

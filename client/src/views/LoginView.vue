@@ -47,17 +47,15 @@ export default {
       axios
         .post("http://127.0.0.1:8000/api/v1/token/login/", formData)
         .then((response) => {
-          console.log(this.email);
           const token = response.data.auth_token;
           this.$store.commit("setToken", token, this.email);
           axios.defaults.headers.common["Authorization"] = "Token " + token;
           localStorage.setItem("token", token);
           localStorage.setItem("email", this.email);
           this.$router.push("/market");
-        })
-        .catch((error) => {
-          console.log("error", error);
-        });
+      }).catch((error) => {
+        console.log("error", error);
+      })
     },
   },
 };

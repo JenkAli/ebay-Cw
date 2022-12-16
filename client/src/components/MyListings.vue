@@ -15,7 +15,7 @@ export default defineComponent({
     return {
       items: [],
       search: "",
-      userId: 1,
+      userId: localStorage.getItem("id"),
     };
   },
   mounted() {

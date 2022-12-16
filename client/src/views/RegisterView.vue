@@ -32,7 +32,7 @@
         /><br />
 
         <input className="btn" type="submit" />
-        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        <p>Already have an account? <a href="/">Login</a></p>
       </form>
     </div>
   </div>
