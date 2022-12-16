@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from django.http import Http404, HttpResponse, JsonResponse
-from .serializers import ItemSerializer, UpdateItemSerializer, QuestionSerializer, AnswerSerializer
+from .serializers import ItemSerializer, UpdateItemSerializer, QuestionSerializer, AnswerSerializer, UploadItemImageSerializer
 from .models import Item, Question, Answer
 from users.models import MyUser
 from django.utils import timezone
@@ -24,6 +24,22 @@ def items(request):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
+    
+@csrf_exempt
+def upload_image(request, itemId):
+    if request.method == 'POST':
+        image = request.FILES['image']
+        with open('./images/' + image.name, 'wb+') as f:
+            for chunk in image.chunks():
+                f.write(chunk)
+        path="/images/"+ image.name
+        print(path)
+        items = Item.objects.filter(id=itemId).first()
+        items.image = path
+        items.save()
+        return HttpResponse('Worked')
+    else:
+        return HttpResponse('Invalid request')
     
 @csrf_exempt
 def itemsByUser(request, userId):
@@ -117,11 +133,11 @@ def remove_expired_objects():
     email_addresses = [obj.current_bidder for obj in expired_objects]
     if expired_objects.exists():
          expired_objects.delete()
-        #  for email_address in email_addresses:
-        #      send_mail(
-        #          'YOU WON',
-        #          'WELL DONE YOU have won the item you bidded on',
-        #          'ebaycw057@gmail.com',
-        #          [email_address],
-        #          fail_silently=True,
-        #      )
+         for email_address in email_addresses:
+              send_mail(
+                  'YOU WON',
+                  'WELL DONE YOU have won the item you bidded on',
+                  'ebaycw057@gmail.com',
+                  [email_address],
+                  fail_silently=True,
+              )

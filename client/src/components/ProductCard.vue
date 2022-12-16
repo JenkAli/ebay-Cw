@@ -47,6 +47,7 @@ export default defineComponent({
           this.items = data;
         })
         .catch((err) => console.log(err));
+      setTimeout(() => window.location.reload(), 200);
     },
 
     async searched() {
@@ -71,11 +72,15 @@ export default defineComponent({
   <div className="buttonStyling">
     <AddButton @updateTable="handleAdd" />
     <button type="button" className="btn" @click="searched()">Search</button>
-    <input type="text" v-model="search" placeholder="Search"/>
+    <input type="text" v-model="search" placeholder="Search" />
   </div>
   <div v-for="item in items" v-bind:key="item.id">
     <div className="card">
-      <img className="cardimg" src:item.image alt="no image found" />
+      <img
+        className="cardimg"
+        v-bind:src="'http://localhost:8000' + item.image"
+        alt="no image found"
+      />
       <div className="details">
         <div className="cardTitle">
           <div class="green">{{ item.title }}</div>

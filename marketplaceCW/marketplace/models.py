@@ -12,7 +12,7 @@ class Item(models.Model):
       null=False,
       related_name='owner'
     )
-    image = models.ImageField(upload_to='images/', null=True)
+    image = models.CharField(max_length=100, blank=True, null=True)
     starting_price = MoneyField(max_digits=10, decimal_places=2, default_currency='GBP')
     current_price = MoneyField(max_digits=10, decimal_places=2, default_currency='GBP', null=True)
     expire_time = models.DateTimeField()
@@ -23,8 +23,6 @@ class Item(models.Model):
       related_name='current_bidder'
     )
 
-    def __str__(self):
-        return self.title
         
 class Question(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)

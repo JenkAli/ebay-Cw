@@ -7,7 +7,10 @@ export default defineComponent({
     return {
       showModal: false,
       error: "",
+      img: {},
+      fle: {},
       itemData: {
+        id: "",
         title: "",
         description: "",
         owner: localStorage.getItem("id"),
@@ -36,13 +39,38 @@ export default defineComponent({
             starting_price: this.itemData.starting_price,
             expire_time: this.itemData.expire_time,
           }),
-        });
-        setTimeout(() => this.$emit("updateTable"), 100);
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setTimeout(() => this.$emit("updateTable"), 100);
+            setTimeout(() => this.submitImage(data.id), 200);
+          })
+          .catch((err) => console.log(err));
       }
     },
     cancel() {
       this.error = "";
       this.showModal = false;
+    },
+    async uploadImage() {
+      const file = this.$refs.fileInput.files[0];
+      this.fle = file;
+    },
+    async submitImage(id) {
+      const formData = new FormData();
+      formData.append("image", this.fle);
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8000/api/items/${id}/image/`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 });
@@ -68,7 +96,7 @@ export default defineComponent({
     <h3>Expire Time</h3>
     <input type="datetime-local" v-model="itemData.expire_time" />
     <h3>Upload Image</h3>
-    <input type="file" ref="fileInput" accept="image/*" />
+    <input type="file" ref="fileInput" @change="uploadImage" />
     <div className="err">{{ error }}</div>
     <button type="button" className="btn" @click="sumbitted">Confirm</button>
     <button type="button" className="btn" @click="cancel">Cancel</button>
