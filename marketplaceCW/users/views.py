@@ -28,11 +28,11 @@ def users(request, pk):
     try:
         result = MyUser.objects.get(pk=pk)
     except:
-        return JsonResponse('Error', status=404)  
+        return JsonResponse('Error', status=404)
     if(request.method == 'PUT'):
-        data = JSONParser().parse(request)  
+        data = JSONParser().parse(request)
         serializer = UserSerializer(result, data=data)
-        if(serializer.is_valid()):  
+        if(serializer.is_valid()):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
@@ -40,15 +40,14 @@ def users(request, pk):
         serializer = UserSerializer(result)
         return JsonResponse(serializer.data,safe=False)
 
-def updateUser(request, pk):
+@csrf_exempt
+def getUserByEmail(request, email):
+    print(email)
     try:
-        result = MyUser.objects.get(pk=pk)
+        result = MyUser.objects.get(email=email)
+        print(result)
     except:
-        return JsonResponse('Error', status=404)
-    if(request.method == 'PUT'):
-        data = JSONParser().parse(request)  
-        serializer = UpdateUserSerializer(result, data=data)
-        if(serializer.is_valid()):  
-            serializer.save() 
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+        return JsonResponse('Error', status=404, safe=False)
+    if(request.method == 'GET'):
+        serializer = UserSerializer(result)
+        return JsonResponse(serializer.data,safe=False)

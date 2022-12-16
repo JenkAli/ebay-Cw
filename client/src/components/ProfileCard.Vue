@@ -2,44 +2,37 @@
 import EditProfile from "../components/Profile-edit.vue";
 import { defineComponent } from "vue";
 export default defineComponent({
-  components: {
-    EditProfile,
-  },
   data() {
     return {
-      users: [],
+      email: localStorage.getItem("email"),
+      dob: localStorage.getItem("date_of_birth"),
     };
   },
-  mounted() {
-    fetch(`http://127.0.0.1:8000/api/users/`, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        this.users = data;
-      })
-      .catch((err) => console.log(err));
-  },
   methods: {
-
+    getlocalstorage() {
+      this.email = localStorage.getItem("email");
+      this.dob = localStorage.getItem("date_of_birth");
+    },
+  },
+  components: {
+    EditProfile,
   },
 });
 </script>
 <template>
-  <div v-for="user in users" >
-    <div className="profile">
-      <img className="cardimg" src="" alt="No Image Found" />
-      <div className="details">
-        <div className="cardTitle">
-          <div class="green">{{ user.email }}</div>
-        </div>
-        <div className="profileDetails">
-          <div class="green">{{  }}</div>
-        </div>
+  <div className="profile">
+    <img className="cardimg" src="" alt="No Image Found" />
+    <div className="details">
+      <div className="cardTitle">
+        <div class="green">{{this.email}}</div>
+        <div class="green">{{this.dob}}</div>
+      </div>
+      <div className="profileDetails">
+        <div class="green">{{  }}</div>
       </div>
     </div>
   </div>
-  <EditProfile />
+  <EditProfile @updateProfile="getlocalstorage"/>
 </template>
 
 <style scoped>

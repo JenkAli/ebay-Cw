@@ -1,32 +1,31 @@
-<script lang="ts">import image from '/Users/pkonduru/ebay-Cw/client/src/pic.png'
+<script lang="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
   data() {
     return {
-      users: [],
       showModal: false,
+      id: localStorage.getItem("id"),
+      email: localStorage.getItem("email")||"",
+      dob: localStorage.getItem("date_of_birth")||"",
     };
-  },
-  mounted() {
-    fetch(`http://127.0.0.1:8000/api/users/3/`, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        this.users = data;
-      })
-      .catch((err) => console.log(err));
   },
   methods: {
     update() {
-      fetch(`http://127.0.0.1:8000/api/users/${3}/`, {
+      this.showModal = false
+      fetch(`http://127.0.0.1:8000/api/users/${this.id}`, {
         method: "PUT",
         body: JSON.stringify({
-          email: "hellohello@gmail.com",
-          date_of_birth: "2006-05-06", 
+          email: this.email,
+          date_of_birth: this.dob, 
         }),
-      });
-      setTimeout(() => this.$emit("updateTable"), 100);
+      })
+      .then(
+        localStorage.setItem("email",this.email),
+        localStorage.setItem("date_of_birth",this.dob),
+        window.location.reload(),
+        setTimeout(() => this.$emit("updateProfileCard"), 100),
+      );
+
     }
   },
 });
@@ -36,12 +35,11 @@ export default defineComponent({
     <button type="button" className="btn" @click="showModal = true">
       Edit Profile Details
     </button>
-    <div className="popup" >
+    <div className="popup" v-if="showModal">
       <h1>EDIT PROFILE DETAILS</h1>
-      <h3>{{  }}</h3>
-      <textarea type="text" placeholder="text"/>
+      <textarea type="text" placeholder="enter email" v-model="email"/>
       <h3>Date of birth</h3>
-      <textarea type="text" placeholder="Brief description about the product" />
+      <textarea type="text" placeholder="enter dob" v-model="dob"/>
       <h3>Upload Profile Image</h3>
       <input type="file" ref="fileInput" accept="image/*" />
       <button type="button" className="btn" @click="update">

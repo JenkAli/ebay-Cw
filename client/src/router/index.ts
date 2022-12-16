@@ -26,7 +26,7 @@ const router = createRouter({
       component: Register,
     },
     {
-      path: "/:userIdparam/profile",
+      path: "/profile",
       name: "profile",
       component: ProfileView,
       beforeEnter: () => {
