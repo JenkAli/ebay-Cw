@@ -6,8 +6,8 @@ export default defineComponent({
     itemId: Number,
     name: String,
     des: String,
-    currentPrice: String,
-    startingPrice: String,
+    currentPrice: Number,
+    startingPrice: Number,
   },
   data() {
     return {
@@ -22,7 +22,7 @@ export default defineComponent({
   },
   methods: {
     bid() {
-      if (this.value == this.itemCurrentPrice) {
+      if (this.value <= this.itemCurrentPrice) {
         this.error = "Please complete all fields as prompted";
       } else {
         this.showModal = false;
@@ -30,7 +30,7 @@ export default defineComponent({
           method: "PUT",
           body: JSON.stringify({
             current_price: this.value,
-            current_bidder: localStorage.getItem("email"),
+            current_bidder: localStorage.getItem("id"),
           }),
         });
         setTimeout(() => this.$emit("updateTable"), 100);
@@ -52,7 +52,7 @@ export default defineComponent({
     <h1>Current Price: £{{ itemCurrentPrice }}</h1>
     <h1>Starting Price: £{{ itemStartingPrice }}</h1>
     <vue-number-input
-      v-if="itemCurrentPrice == null"
+      v-if="itemCurrentPrice == 0 || itemCurrentPrice == null"
       v-model="value"
       :min="itemStartingPrice"
       inline

@@ -71,7 +71,7 @@ export default defineComponent({
   <div className="buttonStyling">
     <AddButton @updateTable="handleAdd" />
     <button type="button" className="btn" @click="searched()">Search</button>
-    <input type="text" v-model="search" />
+    <input type="text" v-model="search" placeholder="Search"/>
   </div>
   <div v-for="item in items" v-bind:key="item.id">
     <div className="card">
@@ -103,8 +103,8 @@ export default defineComponent({
             :itemId="item.id"
             :name="item.title"
             :des="item.description"
-            :currentPrice="item.current_price"
-            :startingPrice="item.starting_price"
+            :currentPrice="Number(item.current_price)"
+            :startingPrice="Number(item.starting_price)"
             @updateTable="handleAdd"
           />
         </div>

@@ -10,7 +10,7 @@ export default defineComponent({
       itemData: {
         title: "",
         description: "",
-        owner: localStorage.getItem("email"),
+        owner: localStorage.getItem("id"),
         starting_price: 0,
         expire_time: "",
       },
