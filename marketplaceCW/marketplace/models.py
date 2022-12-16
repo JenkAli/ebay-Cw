@@ -27,20 +27,13 @@ class Item(models.Model):
         return self.title
         
 class Question(models.Model):
-    question = models.CharField(max_length=300)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.question
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sender')
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='receiver')
+    question_text = models.TextField()
 
 class Answer(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, blank=False)
-    answer = models.TextField(max_length=500)
-    created = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.answer
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='answer_sender')
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='answer_receiver')
+    answer_text = models.TextField()
