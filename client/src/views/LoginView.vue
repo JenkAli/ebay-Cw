@@ -56,10 +56,9 @@ export default {
           localStorage.setItem("token", token);
           localStorage.setItem("email", this.email);
           this.$router.push("/market");
-        })
-        .catch((error) => {
-          console.log("error", error);
-        });
+      }).catch((error) => {
+        console.log("error", error);
+      })
     },
   },
 };
